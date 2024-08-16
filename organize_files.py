@@ -1,6 +1,7 @@
 import os
 import shutil
 
+
 def organize_files(folder_path):
     extensions = {
         'images': ['jpg', 'jpeg', 'png', 'gif'],
@@ -17,4 +18,6 @@ def organize_files(folder_path):
                     os.makedirs(new_folder)
                 shutil.move(os.path.join(folder_path, filename), new_folder)
 
+
+# Example usage
 organize_files('/path/to/your/folder')

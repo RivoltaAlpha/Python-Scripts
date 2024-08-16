@@ -10,5 +10,17 @@
         "start_time": "2024-08-16 15:10:04",
         "end_time": "2024-08-16 15:11:15",
         "total_time_seconds": 71.147316
+    },
+    {
+        "task": "VSCode",
+        "start_time": "2024-08-16 15:16:10",
+        "end_time": "2024-08-16 15:28:28",
+        "total_time_seconds": 738.345671
+    },
+    {
+        "task": "VSCode",
+        "start_time": "2024-08-16 15:16:12",
+        "end_time": "2024-08-16 15:28:31",
+        "total_time_seconds": 738.892919
     }
 ]

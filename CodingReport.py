@@ -1,13 +1,14 @@
 import json
 from datetime import datetime, timedelta
-from codingTracker import LOG_FILE
+import matplotlib.pyplot as plt
+
+LOG_FILE = 'vscode_time_log.json'
 
 
 def generate_summary(logs, period='daily'):
-
     if not logs:
         print("No logs found.")
-        return
+        return 0
 
     now = datetime.now()
     total_seconds = 0
@@ -18,6 +19,9 @@ def generate_summary(logs, period='daily'):
         start_period = now - timedelta(days=now.weekday())  # Start of the week
     elif period == 'monthly':
         start_period = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    else:
+        print("Invalid period specified.")
+        return 0
 
     for log in logs:
         start_time = datetime.strptime(log['start_time'], '%Y-%m-%d %H:%M:%S')
@@ -25,7 +29,7 @@ def generate_summary(logs, period='daily'):
             total_seconds += log['total_time_seconds']
 
     total_hours = total_seconds / 3600
-    print(f"Total time spent on VSCode ({period}): {total_hours:.2f} hours")
+    return total_hours
 
 
 def load_logs():
@@ -36,8 +40,36 @@ def load_logs():
         return []
 
 
+def plot_summary(data, period):
+    periods = list(data.keys())
+    values = list(data.values())
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(periods, values, color='skyblue')
+    plt.xlabel('Period')
+    plt.ylabel('Hours Spent')
+    plt.title(f'Time Spent on VSCode ({period.capitalize()})')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
+def main():
+    period = input(
+        "Enter the period for which you want to generate the report (daily, weekly, monthly): ").strip().lower()
+
+    if period not in ['daily', 'weekly', 'monthly']:
+        print("Invalid period specified. Please choose from 'daily', 'weekly', or 'monthly'.")
+        return
+
+    logs = load_logs()
+    hours = generate_summary(logs, period)
+
+    summary_data = {period.capitalize(): hours}
+
+    plot_summary(summary_data, period)
+
+
 # Example usage
-logs = load_logs()
-generate_summary(logs, 'daily')
-generate_summary(logs, 'weekly')
-generate_summary(logs, 'monthly')
+if __name__ == "__main__":
+    main()
